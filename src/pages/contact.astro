@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro'
+
+// Replace this with your Google Form embed URL:
+// 1. Open your Google Form
+// 2. Click Send → Embed (</>) → copy the src URL from the <iframe> tag
+const googleFormEmbedUrl = 'REPLACE_WITH_YOUR_GOOGLE_FORM_EMBED_URL'
+---
+
+<Base title="Contact — Your Name" description="Get in touch">
+  <div class="flex flex-col gap-6">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Contact</h1>
+      <p class="mt-2 text-slate-600 dark:text-slate-400">
+        Fill out the form below and I'll get back to you.
+      </p>
+    </div>
+
+    {googleFormEmbedUrl === 'REPLACE_WITH_YOUR_GOOGLE_FORM_EMBED_URL' ? (
+      <div class="border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center text-slate-500 dark:text-slate-400">
+        <p class="font-medium">Google Form not configured yet.</p>
+        <p class="mt-1 text-sm">
+          Edit <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">src/pages/contact.astro</code> and replace <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">googleFormEmbedUrl</code> with your form's embed URL.
+        </p>
+      </div>
+    ) : (
+      <iframe
+        src={googleFormEmbedUrl}
+        title="Contact form"
+        class="w-full rounded-xl border border-slate-200 dark:border-slate-800"
+        style="height: 600px;"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+      >
+        Loading…
+      </iframe>
+    )}
+  </div>
+</Base>

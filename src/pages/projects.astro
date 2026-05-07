@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import { projects } from '../data/projects'
+---
+
+<Base title="Projects — Your Name" description="Projects I've built">
+  <div class="flex flex-col gap-6">
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Projects</h1>
+    <div class="flex flex-col gap-6">
+      {projects.map(project => (
+        <ProjectCard {...project} />
+      ))}
+    </div>
+  </div>
+</Base>

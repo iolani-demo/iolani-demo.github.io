@@ -1,0 +1,50 @@
+---
+interface Props {
+  url: string
+  title?: string
+}
+
+const { url, title = 'Video demo' } = Astro.props
+
+function toEmbedUrl(raw: string): string | null {
+  try {
+    const u = new URL(raw)
+
+    // YouTube: youtube.com/watch?v=ID or youtu.be/ID
+    if (u.hostname === 'www.youtube.com' || u.hostname === 'youtube.com') {
+      const id = u.searchParams.get('v')
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+    if (u.hostname === 'youtu.be') {
+      const id = u.pathname.slice(1)
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+
+    // Vimeo: vimeo.com/ID
+    if (u.hostname === 'vimeo.com' || u.hostname === 'www.vimeo.com') {
+      const id = u.pathname.slice(1)
+      return id ? `https://player.vimeo.com/video/${id}` : null
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+const embedUrl = toEmbedUrl(url)
+---
+
+{embedUrl ? (
+  <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
+    <iframe
+      src={embedUrl}
+      title={title}
+      class="absolute inset-0 w-full h-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    />
+  </div>
+) : (
+  <p class="text-sm text-slate-400">Could not embed video: {url}</p>
+)}
